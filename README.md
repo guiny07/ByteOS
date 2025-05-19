@@ -18,7 +18,7 @@ A implementação do "núcleo" do SO partirá da codificação das threads defin
 
 A partir da execução dessas funções o núcleo ativará a thread correspondente, bem como o escalonamento do próximo processo usando o algoritmo de escalonamento. 
 
-Os evetnso a serem tratados pelo núcleo são: 
+Os eventos a serem tratados pelo núcleo são: 
 
 1. processInterrupt(1) - interrupção gerada pela execução da função ProcessCreate e pelo término de operações de E/S.
 2. semaphoreP(10) - tratamento de bloqueio de processo.
