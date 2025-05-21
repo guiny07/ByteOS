@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/ByteOS.dir/main.c.o CMakeFiles/ByteOS.dir/utils/list.c.o CMakeFiles/ByteOS.dir/utils/utils.c.o -o ByteOS 
