@@ -9,6 +9,6 @@ include_directories(${CMAKE_SOURCE_DIR}/utils)
 # Adiciona os arquivos fonte
 add_executable(ByteOS
     main.c
-    utils/list.c
-    utils/utils.c
+    src/utils/list.c
+    src/utils/utils.c
 )
