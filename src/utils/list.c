@@ -1,7 +1,7 @@
 #include "list.h"
 #include <stdlib.h> 
 
-List *createList() {
+List *List__createList() {
     List *list = (List *) malloc(sizeof(List));
 
     list->tail = list->head = NULL;

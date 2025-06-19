@@ -1,4 +1,18 @@
-#include "stdlib.h"
+#ifndef PROCESS_H
+#define PROCESS_H
+
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include "../kernel/kernel.h"
+#include "../utils/list.h"
+#include "../utils/utils.h"
+
+extern List* ready_queue;
+extern List* blocked_queue;
+extern List* all_processes;
+
 
 typedef enum {
     NEW,
@@ -28,5 +42,19 @@ typedef struct {
 } Instruction;
 
 typedef struct Process{
-    
-} Process;
+    char *name;
+    int pid;
+    int priority;
+    ProcessState state;
+    int segment_size;
+    int segment_id;
+    int rw_count;
+
+
+} PCB;
+
+void Process__process_init();
+void* Process__processCreateThread(void *arg);
+void Process__processCreate(char *name);
+
+#endif

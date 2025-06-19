@@ -1,3 +1,0 @@
-/home/vivan/Projects/ByteOS/build/CMakeFiles/ByteOS.dir
-/home/vivan/Projects/ByteOS/build/CMakeFiles/edit_cache.dir
-/home/vivan/Projects/ByteOS/build/CMakeFiles/rebuild_cache.dir

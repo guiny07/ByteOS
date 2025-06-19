@@ -14,7 +14,7 @@ typedef struct list
     int size; 
 } List;
 
-List *createList();
+List *List__createList();
 void List_append(List *list, void *value);
 void List__InsertSorted(List *list, void *value, int (*compareFunction)(void *a, void *b));
 int List__remove(List *list, void *value, int (*f)(void *a, void *b));

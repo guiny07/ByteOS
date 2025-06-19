@@ -4,11 +4,23 @@ project(ByteOS C)
 set(CMAKE_C_STANDARD 99)
 
 # Adiciona o diretório utils como include path
-include_directories(${CMAKE_SOURCE_DIR}/utils)
+# include_directories(${CMAKE_SOURCE_DIR}/utils)
+include_directories(
+    src/kernel
+    src/process
+    src/utils
+    src/disk
+    src/memory
+    src/printer
+)
 
 # Adiciona os arquivos fonte
 add_executable(ByteOS
     main.c
     src/utils/list.c
     src/utils/utils.c
+    src/kernel/kernel.c
+    src/process/process.c
 )
+
+find_package(Threads REQUIRED)
