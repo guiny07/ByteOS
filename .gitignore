@@ -1,3 +1,5 @@
 # Vscode directories.
 .vscode/
 
+# CMake directories.
+build/
