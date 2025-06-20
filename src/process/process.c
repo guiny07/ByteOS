@@ -1,5 +1,9 @@
 #include "process.h"
 
+static int pid_counter = 0;
+List* ready_queue = NULL;
+List* blocked_queue = NULL;
+List* all_processes = NULL;
 
 void Process__process_init()
 {
@@ -20,14 +24,15 @@ void* Process__processCreateThread(void *arg)
         processCreateFlag = 0;
         pthread_mutex_unlock(&dispatcherMutex);
 
-        //Process__processCreate();
+        Process__processCreate((char*)arg);
     }
 }
 
 void Process__processCreate(char *name)
 {
     FILE *fp;
-    char *file_path = strcat("../../synthetic_programs/", name);
+    char file_path[256];
+    snprintf(file_path, sizeof(file_path), "../synthetic_programs/%s", name);
     fp = fopen(file_path, "r");
 
     if(fp == NULL){
@@ -39,9 +44,12 @@ void Process__processCreate(char *name)
     PCB *newProcess = (PCB*) malloc(sizeof(PCB));
 
     newProcess->state = NEW;
-    
+    newProcess->rw_count = 0;
+    newProcess->pid = pid_counter++;
+
     fgets(buffer, sizeof(buffer), fp);
-    strcpy(newProcess->name, buffer);
+    newProcess->name = strdup(buffer);
+    newProcess->name[strcspn(newProcess->name, "\n")] = '\0';
 
     fgets(buffer, sizeof(buffer), fp);
     newProcess->segment_id = atoi(buffer);
@@ -53,6 +61,7 @@ void Process__processCreate(char *name)
     newProcess->segment_size = atoi(buffer);
 
     
+
 }
 
 

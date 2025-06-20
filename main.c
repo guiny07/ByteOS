@@ -16,17 +16,14 @@ void debugList(List *list, void (*printFunction)(void *value)){
 
 int main()
 {
-   pthread_t thread_create;
+    pthread_t thread_create;
    
-   pthread_create(&thread_create, NULL, Process__processCreateThread, NULL);
+    char* program = "sint2";
+    pthread_create(&thread_create, NULL, Process__processCreateThread, (void*)program);
 
-   while(1)
-   {
-        Event code = Kernel__syscall();
-        Kernel__dispatch(code);
+    sleep(1);
+    Kernel__dispatch(PROCESS_CREATE);
+    sleep(3);
 
-        sleep(1);
-   }
-
-   return 0; 
+    return 0; 
 }
