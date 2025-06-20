@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <pthread.h>
 #include "../kernel/kernel.h"
 #include "../utils/list.h"
@@ -34,14 +35,15 @@ typedef enum {
 
 // For a single instruction from the synthetic program. 
 typedef struct {
-    int operation;
+    Operation operation;
     int value;
     char sem; //Semaphores added.
     int remaining_time; // In case the instruction is not completely read. 
     bool loaded; // Flag to know if the instructions is completely loaded in to page table.   
 } Instruction;
 
-typedef struct Process{
+typedef struct ProcessControlBlock
+{
     char *name;
     int pid;
     int priority;
@@ -50,6 +52,10 @@ typedef struct Process{
     int segment_id;
     int rw_count;
 
+    Node *current_page;
+    Node *current_instruction;
+
+    List *instructions;
 
 } PCB;
 

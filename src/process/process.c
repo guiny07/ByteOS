@@ -26,9 +26,33 @@ void* Process__processCreateThread(void *arg)
 
 void Process__processCreate(char *name)
 {
-    static int pid_counter = 0;
+    FILE *fp;
+    char *file_path = strcat("../../synthetic_programs/", name);
+    fp = fopen(file_path, "r");
 
-    printf("[ProcessCreate] Criando processo com PID %d\n", pid_counter++);
+    if(fp == NULL){
+        printf("%s is not a valid program, please select an existing synthetic program.", name);
+        return;
+    }
+
+    char buffer[256];
+    PCB *newProcess = (PCB*) malloc(sizeof(PCB));
+
+    newProcess->state = NEW;
+    
+    fgets(buffer, sizeof(buffer), fp);
+    strcpy(newProcess->name, buffer);
+
+    fgets(buffer, sizeof(buffer), fp);
+    newProcess->segment_id = atoi(buffer);
+
+    fgets(buffer, sizeof(buffer), fp);
+    newProcess->priority = atoi(buffer);
+
+    fgets(buffer, sizeof(buffer), fp);
+    newProcess->segment_size = atoi(buffer);
+
+    
 }
 
 

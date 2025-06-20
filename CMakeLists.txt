@@ -12,6 +12,7 @@ include_directories(
     src/disk
     src/memory
     src/printer
+    src/semaphore
 )
 
 # Adiciona os arquivos fonte
@@ -21,6 +22,7 @@ add_executable(ByteOS
     src/utils/utils.c
     src/kernel/kernel.c
     src/process/process.c
+    src/semaphore/semaph.c
 )
 
 find_package(Threads REQUIRED)
