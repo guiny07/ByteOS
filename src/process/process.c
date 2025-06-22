@@ -6,6 +6,10 @@ List* ready_queue = NULL;
 List* blocked_queue = NULL;
 List* all_processes = NULL;
 
+pthread_mutex_t mutex_ready_queue = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_blocked_queue = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_all_processes = PTHREAD_MUTEX_INITIALIZER;
+
 // To initialize the global structures.
 void Process__process_init()
 {
@@ -77,6 +81,10 @@ void Process__processCreate(char *name)
     fclose(fp);
 
     
+    //CRIAR LÓGICA PARA A MEMÓRIA.
+    //INSERIR NA all_process VIA EXCLUSÃO MÚTUA.
+
+
 }
 
 

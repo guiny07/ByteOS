@@ -1,5 +1,7 @@
 #include "semaph.h"
 
+static pthread_mutex_t semaphore_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 List* semaphore_table = NULL;
 
 void Semaph__semaph_table_init() {
@@ -31,6 +33,8 @@ Semaphore* Semaph__search_semaph(char sem) {
 
 void Semaph__load_semaphores(char *buffer, List* semaphores) {
 
+    pthread_mutex_lock(&semaphore_mutex);
+
     int max_buffer = strlen(buffer);
     Semaphore *semaph;
 
@@ -42,4 +46,6 @@ void Semaph__load_semaphores(char *buffer, List* semaphores) {
             List_append(semaphores, (void *) semaph);
         }
     }
+
+    pthread_mutex_unlock(&semaphore_mutex);
 }

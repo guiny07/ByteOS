@@ -16,6 +16,9 @@ extern List* ready_queue;
 extern List* blocked_queue;
 extern List* all_processes;
 
+extern pthread_mutex_t mutex_ready_queue;
+extern pthread_mutex_t mutex_blocked_queue;
+extern pthread_mutex_t mutex_all_processes;
 
 typedef enum {
     NEW,

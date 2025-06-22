@@ -1,11 +1,16 @@
 #include "kernel.h"
 
+// Global flags for each thread.
 int processCreateFlag = 0;
 int diskRequestFlag = 0;
+int memLoadReqFlag = 0;
 
+// Global threads for each of the requested functions.
 pthread_mutex_t dispatcherMutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond_processCreate = PTHREAD_COND_INITIALIZER;
 pthread_cond_t cond_diskRequest = PTHREAD_COND_INITIALIZER;
+pthread_cond_t cond_memLoadReq = PTHREAD_COND_INITIALIZER;
+
 
 int Kernel__syscall()
 {
@@ -34,6 +39,8 @@ void Kernel__dispatch(Event code)
         case PROCESS_INTERRUPT:
             break;
         case MEM_LOAD_REQ:
+            memLoadReqFlag = 1;
+            pthread_cond_signal(&cond_memLoadReq);
             break;
         case PROCESS_FINISH:
             break;

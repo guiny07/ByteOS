@@ -8,10 +8,12 @@
 
 extern int processCreateFlag;
 extern int diskRequestFlag;
+extern int memLoadReqFlag;
 
 extern pthread_mutex_t dispatcherMutex;
 extern pthread_cond_t cond_processCreate;
 extern pthread_cond_t cond_diskRequest;
+extern pthread_cond_t cond_memLoadReq;
 
 // Código para cada evento tratado pelo núcleo. 
 typedef enum {
