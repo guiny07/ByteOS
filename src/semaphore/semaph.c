@@ -43,16 +43,3 @@ void Semaph__load_semaphores(char *buffer, List* semaphores) {
         }
     }
 }
-
-// REMOVER ISSO.
-void print_list(List *list)
-{
-    Node *aux = list->head;
-
-    while(aux)
-    {
-        Semaphore *semaph = (Semaphore *) aux->info;
-        printf("Semaphore name: %c | Waiter list size: %d \n", semaph->name, semaph->waiters->size);
-        aux = aux->next;
-    }
-}

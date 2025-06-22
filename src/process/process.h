@@ -61,8 +61,17 @@ typedef struct ProcessControlBlock
 
 } PCB;
 
+// To initialize the global structures.
 void Process__process_init();
+// Function to wake up the ProcessCreate thread based on the value of its flag.
 void* Process__processCreateThread(void *arg);
+// Reads a program from the synthetic programs directory and turns it in to a process in the simulator.
 void Process__processCreate(char *name);
+
+// Utilitary functions.
+List* Process__read_instructions(FILE *fp);
+Instruction* Process__instruction_parser(char *buffer);
+
+void print_list(List *list); //REMOVER ISSO!
 
 #endif

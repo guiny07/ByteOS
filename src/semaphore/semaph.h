@@ -7,7 +7,6 @@
 #include "../kernel/kernel.h"
 #include "../utils/utils.h"
 #include "../utils/list.h"
-//#include "../process/process.h"
 
 extern List* semaphore_table;
 
@@ -27,6 +26,5 @@ void Semaph__semaphoreP(char sem, PCB *process);
 void Semaph__semaphoreV(char sem);
 void Semaph__load_semaphores(char *buffer, List *semaphores);
 
-void print_list(List *list); // REMOVER ISSO.
 
 #endif
