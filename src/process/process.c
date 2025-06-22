@@ -45,8 +45,9 @@ void Process__processCreate(char *name)
 
     newProcess->state = NEW;
     newProcess->rw_count = 0;
-    newProcess->pid = pid_counter++;
+    newProcess->pid = pid_counter++; // Atribui o atual PID disponível e incrementa para o próximo. 
 
+    //Carregando os metadados. 
     fgets(buffer, sizeof(buffer), fp);
     newProcess->name = strdup(buffer);
     newProcess->name[strcspn(newProcess->name, "\n")] = '\0';
@@ -60,8 +61,15 @@ void Process__processCreate(char *name)
     fgets(buffer, sizeof(buffer), fp);
     newProcess->segment_size = atoi(buffer);
 
+    //Carregando os semáforos usados pelo processo. 
+    fgets(buffer, sizeof(buffer), fp);
+    Semaph__load_semaphores(buffer, semaphore_table);
+
+    //Carregando instruções.
     
 
+
+    fclose(fp);
 }
 
 

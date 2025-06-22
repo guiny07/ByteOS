@@ -5,6 +5,7 @@
 #include "src/process/process.h"
 #include <pthread.h>
 #include <unistd.h>
+#include "src/semaphore/semaph.h"
 
 void debugList(List *list, void (*printFunction)(void *value)){
     Node *aux = list->head;
@@ -21,9 +22,11 @@ int main()
     char* program = "sint2";
     pthread_create(&thread_create, NULL, Process__processCreateThread, (void*)program);
 
+    Semaph__semaph_table_init();
+
     sleep(1);
     Kernel__dispatch(PROCESS_CREATE);
-    sleep(3);
+    sleep(2);
 
     return 0; 
 }

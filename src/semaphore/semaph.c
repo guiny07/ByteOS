@@ -13,6 +13,8 @@ Semaphore* Semaph__semaph_init(char sem_name) {
     sem->name = sem_name;
     sem->waiters = List__createList();
     sem_init(&sem->mutex, 0, 1); 
+
+    return sem;
 }
 
 Semaphore* Semaph__search_semaph(char sem) {
@@ -27,3 +29,30 @@ Semaphore* Semaph__search_semaph(char sem) {
     return NULL;
 }
 
+void Semaph__load_semaphores(char *buffer, List* semaphores) {
+
+    int max_buffer = strlen(buffer);
+    Semaphore *semaph;
+
+    for(int i = 0; i < max_buffer; i+=2)
+    {
+        if(Semaph__search_semaph(buffer[i]) == NULL)
+        {
+            semaph = Semaph__semaph_init(buffer[i]);
+            List_append(semaphores, (void *) semaph);
+        }
+    }
+}
+
+// REMOVER ISSO.
+void print_list(List *list)
+{
+    Node *aux = list->head;
+
+    while(aux)
+    {
+        Semaphore *semaph = (Semaphore *) aux->info;
+        printf("Semaphore name: %c | Waiter list size: %d \n", semaph->name, semaph->waiters->size);
+        aux = aux->next;
+    }
+}

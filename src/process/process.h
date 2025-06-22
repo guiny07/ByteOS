@@ -9,6 +9,8 @@
 #include "../kernel/kernel.h"
 #include "../utils/list.h"
 #include "../utils/utils.h"
+#include "../semaphore/semaph.h"
+
 
 extern List* ready_queue;
 extern List* blocked_queue;
