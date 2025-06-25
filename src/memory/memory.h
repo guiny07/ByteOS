@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include "../kernel/kernel.h"
 #include "../utils/list.h"
@@ -36,7 +37,7 @@ typedef struct
     int page_count;
     Node* last_loaded_instruction;
     int missing_instructions;
-    
+
 }PageTable;
 
 
@@ -44,5 +45,9 @@ void* Memory__memLoadReqThread();
 void Memory__memLoadReq();
 void* Memory__memLoadFinishThread();
 void Memory__memLoadFinish();
+
+PageTable* Memory__init_pageTable();
+void Memory__init_page(Page *page, int page_number);
+
 
 #endif

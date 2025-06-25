@@ -92,7 +92,10 @@ void Process__processCreate(char *name)
 
     // Define a instrução atual do processo como sendo a primeira da lista de instruções.
     newProcess->current_instruction = newProcess->instructions->head;
-    
+
+    newProcess->page_table = Memory__init_pageTable();
+    newProcess->page_table->last_loaded_instruction = newProcess->instructions->head;
+
     // Exclusão mútua para guardar o processo em criação na variável global. 
     pthread_mutex_lock(&mutex_loading_process);
     loading_process = newProcess;
@@ -196,7 +199,7 @@ void* Process__processFinishThread()
 
 void Process__processFinish()
 {
-    
+
 }
 
 // REMOVER ISSO.

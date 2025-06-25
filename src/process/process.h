@@ -10,7 +10,7 @@
 #include "../utils/list.h"
 #include "../utils/utils.h"
 #include "../semaphore/semaph.h"
-
+#include "../memory/memory.h"
 
 extern List* ready_queue;
 extern List* blocked_queue;
@@ -66,6 +66,7 @@ typedef struct ProcessControlBlock
 
     List *instructions;
 
+    PageTable *page_table;
 } PCB;
 
 // To initialize the global structures.
