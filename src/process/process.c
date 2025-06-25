@@ -6,9 +6,13 @@ List* ready_queue = NULL;
 List* blocked_queue = NULL;
 List* all_processes = NULL;
 
+PCB* loading_process = NULL;
+
 pthread_mutex_t mutex_ready_queue = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_blocked_queue = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_all_processes = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_loading_process = PTHREAD_MUTEX_INITIALIZER;
+
 
 // To initialize the global structures.
 void Process__process_init()
@@ -17,6 +21,12 @@ void Process__process_init()
     blocked_queue = List__createList();
     all_processes = List__createList();
 }
+
+/*
+*
+*   CRIAÇÃO DE UM PROCESSO. 
+*
+*/
 
 // Function to wake up the ProcessCreate thread based on the value of its flag.
 void* Process__processCreateThread(void *arg)
@@ -80,12 +90,23 @@ void Process__processCreate(char *name)
 
     fclose(fp);
 
+    // Define a instrução atual do processo como sendo a primeira da lista de instruções.
+    newProcess->current_instruction = newProcess->instructions->head;
     
-    //CRIAR LÓGICA PARA A MEMÓRIA.
-    //INSERIR NA all_process VIA EXCLUSÃO MÚTUA.
+    // Exclusão mútua para guardar o processo em criação na variável global. 
+    pthread_mutex_lock(&mutex_loading_process);
+    loading_process = newProcess;
+    pthread_mutex_unlock(&mutex_loading_process);
 
+    Kernel__dispatch(MEM_LOAD_REQ);
 
+    // Inserção na lista geral de processos com exclusão mútua. 
+    pthread_mutex_lock(&mutex_all_processes);
+    List_append(all_processes, (void *)newProcess);
+    pthread_mutex_unlock(&mutex_all_processes);
 }
+
+
 
 
 
@@ -160,6 +181,23 @@ Instruction* Process__instruction_parser(char *buffer) {
     return instruction_read;
 }
 
+
+
+/*
+*
+*   FINALIZAÇÃO DE UM PROCESSO
+*
+*/
+
+void* Process__processFinishThread()
+{
+
+}
+
+void Process__processFinish()
+{
+    
+}
 
 // REMOVER ISSO.
 void print_list(List *list)

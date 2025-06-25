@@ -23,6 +23,7 @@ add_executable(ByteOS
     src/kernel/kernel.c
     src/process/process.c
     src/semaphore/semaph.c
+    src/memory/memory.c
 )
 
 find_package(Threads REQUIRED)

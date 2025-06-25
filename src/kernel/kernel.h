@@ -9,11 +9,15 @@
 extern int processCreateFlag;
 extern int diskRequestFlag;
 extern int memLoadReqFlag;
+extern int memLoadFinishFlag;
+extern int processFinishFlag;
 
 extern pthread_mutex_t dispatcherMutex;
 extern pthread_cond_t cond_processCreate;
 extern pthread_cond_t cond_diskRequest;
 extern pthread_cond_t cond_memLoadReq;
+extern pthread_cond_t cond_memLoadFinish;
+extern pthread_cond_t cond_processFinish;
 
 // Código para cada evento tratado pelo núcleo. 
 typedef enum {
