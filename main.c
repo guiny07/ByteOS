@@ -25,7 +25,8 @@ int main()
     pthread_create(&mem_load_req_thread, NULL, Memory__memLoadReqThread, NULL); // Thread para MemLoadReq.
     pthread_create(&mem_load_finish_thread, NULL, Memory__memLoadFinishThread, NULL); // Thread para MemLoadFinish.
 
-    Semaph__semaph_table_init();
+    Semaph__semaph_table_init(); // Inicializa a semaphore table.
+    Process__process_init(); // Inicializa a ready queue, blocked queue e all processes. 
 
     sleep(1);
     Kernel__dispatch(PROCESS_CREATE);

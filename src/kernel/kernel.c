@@ -50,6 +50,7 @@ void Kernel__dispatch(Event code)
         case MEM_LOAD_FINISH:
             memLoadFinishFlag = 1;
             pthread_cond_signal(&cond_memLoadFinish);
+            break;
         default:
             printf("Dispatch error: illegal event code: %d", code);
     }

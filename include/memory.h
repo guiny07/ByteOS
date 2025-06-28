@@ -9,6 +9,7 @@
 #include "kernel.h"
 #include "list.h"
 #include "utils.h"
+#include "types.h"
 
 #define KB 1024
 #define MB (1024 * KB)
@@ -20,25 +21,6 @@
 #define OS_RESERVED_PAGES (OS_RESERVED_SIZE / PAGE_SIZE)
 
 #define MAX_PAGES_PROCESS 16 // Conjunto residente.
-
-typedef struct Page
-{
-    int  page_number;
-    int reference_bit;
-    List* instructions;
-    int instruction_count;
-
-}Page;
-
-typedef struct PageTable
-{
-    List *pages;
-    int page_count;
-    Node* last_loaded_instruction;
-    int missing_instructions;
-
-}PageTable;
-
 
 void* Memory__memLoadReqThread(); 
 void Memory__memLoadReq();

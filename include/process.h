@@ -12,6 +12,7 @@
 #include "utils.h"
 #include "semaph.h"
 #include "memory.h"
+#include "types.h"
 
 extern List* ready_queue;
 extern List* blocked_queue;
@@ -24,53 +25,6 @@ extern pthread_mutex_t mutex_blocked_queue;
 extern pthread_mutex_t mutex_all_processes;
 
 extern pthread_mutex_t mutex_loading_process;
-
-//typedef struct PageTable PageTable;
-
-typedef enum {
-    NEW,
-    READY,
-    RUNNING,
-    WAITING,
-    TERMINATED
-} ProcessState;
-
-// For the operations performed by the synthetic program. 
-typedef enum {
-    EXEC,
-    READ,
-    WRITE,
-    SEM_P,
-    SEM_V,
-    PRINT
-} Operation;
-
-// For a single instruction from the synthetic program. 
-typedef struct {
-    Operation operation;
-    int value;
-    char sem; //Semaphores added.
-    int remaining_time; // In case the instruction is not completely read. 
-    bool loaded; // Flag to know if the instructions is completely loaded in to page table.   
-} Instruction;
-
-typedef struct ProcessControlBlock
-{
-    char *name;
-    int pid;
-    int priority;
-    ProcessState state;
-    int segment_size;
-    int segment_id;
-    int rw_count;
-
-    Node *current_page;
-    Node *current_instruction;
-
-    List *instructions;
-
-    PageTable *page_table;
-} PCB;
 
 // To initialize the global structures.
 void Process__process_init();
