@@ -1,4 +1,4 @@
-#include "semaph.h"
+#include "../../include/semaph.h"
 
 static pthread_mutex_t semaphore_mutex = PTHREAD_MUTEX_INITIALIZER;
 

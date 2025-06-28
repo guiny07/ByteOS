@@ -1,4 +1,4 @@
-#include "process.h"
+#include "../../include/process.h"
 
 // Global structures managed by process.h
 static int pid_counter = 0;
@@ -96,11 +96,17 @@ void Process__processCreate(char *name)
     newProcess->page_table = Memory__init_pageTable();
     newProcess->page_table->last_loaded_instruction = newProcess->instructions->head;
 
+    if(newProcess->page_table)
+    {
+        printf("[ProcessCreate] Page Table não é null... \n");
+        printf("[ProcessCreate] Page count: %d | Missing Instructions: %d \n", newProcess->page_table->page_count, newProcess->page_table->missing_instructions);
+    }
+    printf("[ProcessCreate] Atribuindo na loading_process... \n");
     // Exclusão mútua para guardar o processo em criação na variável global. 
     pthread_mutex_lock(&mutex_loading_process);
     loading_process = newProcess;
     pthread_mutex_unlock(&mutex_loading_process);
-
+    printf("[ProcessCreate] Atribuição de loading_process concluída \n");
     Kernel__dispatch(MEM_LOAD_REQ);
 
     // Inserção na lista geral de processos com exclusão mútua. 

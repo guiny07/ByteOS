@@ -15,6 +15,8 @@ include_directories(
     src/semaphore
 )
 
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
 # Adiciona os arquivos fonte
 add_executable(ByteOS
     main.c
@@ -26,4 +28,5 @@ add_executable(ByteOS
     src/memory/memory.c
 )
 
+target_link_libraries(ByteOS m)
 find_package(Threads REQUIRED)

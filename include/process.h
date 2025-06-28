@@ -6,11 +6,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <pthread.h>
-#include "../kernel/kernel.h"
-#include "../utils/list.h"
-#include "../utils/utils.h"
-#include "../semaphore/semaph.h"
-#include "../memory/memory.h"
+
+#include "kernel.h"
+#include "list.h"
+#include "utils.h"
+#include "semaph.h"
+#include "memory.h"
 
 extern List* ready_queue;
 extern List* blocked_queue;
@@ -23,6 +24,8 @@ extern pthread_mutex_t mutex_blocked_queue;
 extern pthread_mutex_t mutex_all_processes;
 
 extern pthread_mutex_t mutex_loading_process;
+
+//typedef struct PageTable PageTable;
 
 typedef enum {
     NEW,

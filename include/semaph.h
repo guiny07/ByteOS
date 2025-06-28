@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <semaphore.h>
-#include "../kernel/kernel.h"
-#include "../utils/utils.h"
-#include "../utils/list.h"
+#include "kernel.h"
+#include "utils.h"
+#include "list.h"
 
 extern List* semaphore_table;
 

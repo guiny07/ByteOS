@@ -1,4 +1,4 @@
-#include "kernel.h"
+#include "../../include/kernel.h"
 
 // Global flags for each thread.
 int processCreateFlag = 0;

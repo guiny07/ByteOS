@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "../../include/utils.h"
 
 int compareInt(void *a, void *b){
     if ( *(int *)a == *(int *)b )

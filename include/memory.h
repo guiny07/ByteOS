@@ -6,10 +6,9 @@
 #include <string.h>
 #include <math.h>
 
-#include "../kernel/kernel.h"
-#include "../utils/list.h"
-#include "../utils/utils.h"
-#include "../process/process.h"
+#include "kernel.h"
+#include "list.h"
+#include "utils.h"
 
 #define KB 1024
 #define MB (1024 * KB)
@@ -22,7 +21,7 @@
 
 #define MAX_PAGES_PROCESS 16 // Conjunto residente.
 
-typedef struct
+typedef struct Page
 {
     int  page_number;
     int reference_bit;
@@ -31,7 +30,7 @@ typedef struct
 
 }Page;
 
-typedef struct
+typedef struct PageTable
 {
     List *pages;
     int page_count;

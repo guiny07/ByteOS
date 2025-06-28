@@ -1,13 +1,18 @@
-#include "memory.h"
+#include "../../include/memory.h"
+#include "../../include/process.h"
 
 
 PageTable* Memory__init_pageTable()
 {
+    printf("Entrei na init_pageTable \n");
     PageTable* page_table = (PageTable*)malloc(sizeof(PageTable));
     page_table->page_count = 0;
     page_table->last_loaded_instruction = NULL;
     page_table->missing_instructions = false;
     page_table->pages = List__createList();
+
+    printf("\n Retornei a pageTable \n");
+    return page_table;
 }
 
 void Memory__init_page(Page *page, int page_number)
@@ -42,8 +47,30 @@ void Memory__memLoadReq()
     PCB *process = loading_process;
     loading_process = NULL;
     pthread_mutex_unlock(&mutex_loading_process);
+    printf("\n [Memory Load Request] Cheguei no início da memLoadReq \n");
+    if (process) {
+        printf(">> processo existe\n");
+        printf(">> pid: %d\n", process->pid);
+        printf(">> segmento: %d\n", process->segment_id);
+        printf(">> prioridade: %d\n", process->priority);
+    }
 
+    printf(">> logo antes de acessar page_table\n");
+
+    if (process->page_table == NULL)
+        printf(">> page_table é NULL\n");
+    else
+        printf(">> page_table existe\n");
+
+    printf(">> acessando page_count...\n");
+    //printf(">> endereço de page_table: %p\n", (void*)process->page_table);
+
+    //printf(">> tentando acessar page_count...\n");
     process->page_table->page_count = 0;
+
+
+    printf(">> page_count acessado com sucesso\n");
+
 
     Node* aux = process->page_table->last_loaded_instruction;
     Instruction* next_to_load;
@@ -85,7 +112,40 @@ void Memory__memLoadReq()
             if(next_to_load->loaded == 1)
                 aux = aux->next;
         }
+        else if(process->page_table->page_count == 0)
+        {
+            Page *page = (Page *)malloc(sizeof(Page));
+            
+            next_to_load->loaded = true;
+
+            Memory__init_page(page, process->page_table->page_count);
+            Instruction* new_instr = next_to_load;       
+            List_append(page->instructions, (void *) new_instr);
+            page->instruction_count++;
+            List_append(process->page_table->pages, (void *) page);
+
+            aux = aux->next;
+        }
+        else
+        {
+            Page* last_page = (Page*) process->page_table->pages->tail->info;
+            next_to_load->loaded = true;
+            Instruction* new_instr = next_to_load;
+            List_append(last_page->instructions, new_instr);
+            last_page->instruction_count++;
+
+            aux = aux->next;
+        }
     }
+
+    process->page_table->missing_instructions = (aux != NULL && process->page_table->page_count == MAX_PAGES_PROCESS) ? true : false;
+    process->page_table->last_loaded_instruction = aux;
+
+    pthread_mutex_lock(&mutex_loading_process);
+    loading_process = process;
+    pthread_mutex_unlock(&mutex_loading_process);
+
+    Kernel__dispatch(MEM_LOAD_FINISH);
 }
 
 
@@ -109,5 +169,13 @@ void* Memory__memLoadFinishThread()
 
 void Memory__memLoadFinish()
 {
+    pthread_mutex_lock(&mutex_loading_process);
+    PCB* process = loading_process;
+    pthread_mutex_unlock(&mutex_loading_process);
 
+    process->state = READY;
+
+    pthread_mutex_lock(&mutex_ready_queue);
+    List_append(ready_queue, (void *) process);
+    pthread_mutex_unlock(&mutex_ready_queue);
 }
